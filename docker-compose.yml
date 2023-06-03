@@ -1,0 +1,10 @@
+services:
+    qrcode_generator:
+        image: zauberzeug/nicegui
+        build: 
+            dockerfile: Dockerfile
+        restart: always
+        ports:
+            - 8005:8080
+        volumes:
+            - ./:/app/
