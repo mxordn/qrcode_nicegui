@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 from fastapi import FastAPI
+
 import frontend_main
 from qr_code_helpers import QrCodeData, QRParams
 
@@ -9,7 +10,7 @@ qrcode_app = FastAPI(title='QR Code API')
 
 @qrcode_app.get('/')
 def index():
-    return 'Hello World'
+    return {'data': 'Hello World'}
 
 @qrcode_app.post('/qrcode/api')
 def qrcode_api(qr_data: QRParams):

@@ -29,7 +29,7 @@ def init(app: FastAPI) -> None:
                 with ui.card().tight():
                     with ui.card_section():
                         ui.label('Einstellungen').classes('text-xl')
-                    #container.classes("divide-y")
+
                     with ui.card_section():
                         with ui.column():
                             ui.label('URL oder Inhalt des QR-Codes:')
@@ -63,7 +63,6 @@ def init(app: FastAPI) -> None:
                                 ui.tooltip("Beispiel: Bis zu 15% des Codes sind unlesbar, trotzdem funktioniert der Code noch.").classes('bg-green')
                             ui.radio(['10%', '15%', '25%', '30%'], value='15%').props('inline')
                     with ui.card_actions():
-                        #async def gen_qc():button_geng = 
                         ui.button('QR-Code erstellen!', on_click=lambda: gen_qc_img())
 
             with ui.column().style('width:100%-350px'):
@@ -74,6 +73,4 @@ def init(app: FastAPI) -> None:
             di = Impressum()
             ui.button('Impressum', on_click=di.open).classes('flat')
 
-
     ui.run_with(app, title='QR Code Generator')
-        #, root_path='/qrcode'

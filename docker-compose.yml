@@ -1,6 +1,7 @@
 name: qrcodegenerator
 services:
-    qrcodegenerator:
+    qrc_gen:
+        container_name: qrc_gen
         image: zauberzeug/nicegui
         build: 
             dockerfile: Dockerfile

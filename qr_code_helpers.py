@@ -16,7 +16,7 @@ class QRParams(BaseModel):
     '''A class that contains the data for a qr code.'''
     content: str
     color: str = '#6698CF'
-    bg_color: str = '#000000'
+    bg_color: str = '#FFFFFF'
     version: int = 2
     error_const: str = '15%'
     box_size: int = 10
