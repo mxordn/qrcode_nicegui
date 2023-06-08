@@ -2,6 +2,7 @@ from nicegui import ui
 from fastapi import FastAPI
 from qr_code_helpers import QrCodeData, QRParams
 from impressum import Impressum
+from header import QRHeader
 
 def init(app: FastAPI) -> None:
     @ui.page('/qrcode')
@@ -22,8 +23,7 @@ def init(app: FastAPI) -> None:
             qcd.set_bg_color(e)
             bg_color_chooser.style(f'background-color:{e}!important')
 
-        with ui.header():
-            ui.label('QR Code Generator').classes('mb-2 mt-0 text-xl font-medium leading-tight')
+        header = QRHeader()
         with ui.grid(columns=2).style('height:460px'):
             with ui.column().style('width:350px'):
                 with ui.card().tight():
@@ -33,7 +33,7 @@ def init(app: FastAPI) -> None:
                     with ui.card_section():
                         with ui.column():
                             ui.label('URL oder Inhalt des QR-Codes:')
-                            ui.input(label='Text', placeholder='URL eingeben',
+                            ui.input(label='Text für den QR Code', placeholder='URL eingeben',
                                     on_change=lambda e: qcd.set_url(e.value),
                                     validation={'Input too long': lambda value: len(value) < 200},
                                     ).style('width:100%')
@@ -48,13 +48,16 @@ def init(app: FastAPI) -> None:
                                             on_change=lambda e: qcd.set_box(e.value)).style('width:30%')
                                 ui.number(label='Rand', value=2, format='%.0f', min=0,
                                             on_change=lambda e: qcd.set_border(e.value)).style('width:20%')
+                            ui.markdown('**Farben wählen:**')
                             with ui.row():
-                                ui.markdown('**Farben wählen:**')
-                                picker = ui.color_picker(on_pick=lambda e: set_color(e.color))
-                                color_chooser = ui.button(on_click=picker.open).props('icon=palette')
-
-                                picker_bg = ui.color_picker(on_pick=lambda e: set_bg_color(e.color))
-                                bg_color_chooser = ui.button(on_click=picker_bg.open).props('icon=colorize')
+                                with ui.column():
+                                    ui.label('QR Code')
+                                    picker = ui.color_picker(on_pick=lambda e: set_color(e.color))
+                                    color_chooser = ui.button(on_click=picker.open).props('icon=palette')
+                                with ui.column():
+                                    ui.label('Hintergrund')
+                                    picker_bg = ui.color_picker(on_pick=lambda e: set_bg_color(e.color))
+                                    bg_color_chooser = ui.button(on_click=picker_bg.open).props('icon=colorize')
 
                             with ui.label('Wie viel Fehlertoleranz soll der Code haben:'):
                                 ui.tooltip("Beispiel: Bis zu 15% des Codes sind unlesbar, trotzdem funktioniert der Code noch.").classes('bg-green')

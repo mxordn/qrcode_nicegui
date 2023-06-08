@@ -7,6 +7,10 @@ from qr_code_helpers import QrCodeData, QRParams
 
 qrcode_app = FastAPI(title='QR Code API')
 
+@qrcode_app.get('/')
+def index():
+    return 'Hello World'
+
 @qrcode_app.post('/qrcode/api')
 def qrcode_api(qr_data: QRParams):
     qcd = QrCodeData(qr_data)
