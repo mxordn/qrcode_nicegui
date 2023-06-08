@@ -1,5 +1,5 @@
 services:
-    qrcode_generator:
+    qrcodegenerator:
         image: zauberzeug/nicegui
         build: 
             dockerfile: Dockerfile
