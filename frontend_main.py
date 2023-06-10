@@ -1,19 +1,18 @@
 from nicegui import ui
 from fastapi import FastAPI
 from qr_code_helpers import QrCodeData, QRParams
-from impressum import Impressum
 from header import QRHeader
 
 def init(app: FastAPI) -> None:
-    @ui.page('/qrcode')
+    @ui.page('/home')
     def qrcode_frontend():
         qr_data = QRParams(content='')
         qcd = QrCodeData(qr_data)
 
         def gen_qc_img():
             img_b64 = qcd.generate_qrcode()
-            img_string = f'''<img src="data:image/png;base64,{img_b64}" style=""></img>'''
-            image_html.set_content(img_string)
+            qcd.qr_params.image_string = f'''<img src="data:image/png;base64,{img_b64}" style=""></img>'''
+            image_html.set_content(qcd.qr_params.image_string)
 
         def set_color(e):
             qcd.set_color(e)
@@ -23,7 +22,7 @@ def init(app: FastAPI) -> None:
             qcd.set_bg_color(e)
             bg_color_chooser.style(f'background-color:{e}!important')
 
-        header = QRHeader()
+        header = QRHeader(qrdata=qr_data)
         with ui.grid(columns=2).style('height:460px'):
             with ui.column().style('width:350px'):
                 with ui.card().tight():
@@ -62,15 +61,13 @@ def init(app: FastAPI) -> None:
                             with ui.label('Wie viel Fehlertoleranz soll der Code haben:'):
                                 ui.tooltip("Beispiel: Bis zu 15% des Codes sind unlesbar, trotzdem funktioniert der Code noch.").classes('bg-green')
                             ui.radio(['10%', '15%', '25%', '30%'], value='15%').props('inline')
+                            ui.separator()
                     with ui.card_actions():
                         ui.button('QR-Code erstellen!', on_click=lambda: gen_qc_img())
 
-            with ui.column().style('width:100%-350px'):
+            with ui.column().style('width:80%'):
                 with ui.card().tight():
                     with ui.card_section():
-                        image_html = ui.html('')
-        with ui.footer():
-            di = Impressum()
-            ui.button('Impressum', on_click=di.open).classes('flat')
+                        image_html = ui.html(qcd.qr_params.image_string).bind_content_from(qr_data, 'image_string')
 
     ui.run_with(app, title='QR Code Generator')

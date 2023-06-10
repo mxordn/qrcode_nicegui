@@ -21,6 +21,7 @@ class QRParams(BaseModel):
     error_const: str = '15%'
     box_size: int = 10
     border: int = 2
+    image_string: str = ''
 
 @dataclass
 class QrCodeData:
@@ -78,6 +79,6 @@ class QrCodeData:
         out = io.BytesIO()
         img.save(out, format='PNG')
 
-        img_b64 = base64.b64encode(out.getvalue()).decode()
+        self.qr_params.image_string = base64.b64encode(out.getvalue()).decode()
 
-        return img_b64
+        return self.qr_params.image_string

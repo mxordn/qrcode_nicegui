@@ -10,17 +10,17 @@ qrcode_app = FastAPI(title='QR Code API')
 
 @qrcode_app.get('/')
 def index():
-    return {'data': 'Hello World'}
+    return {'data': 'Hello, World'}
 
-@qrcode_app.post('/qrcode/api')
-def qrcode_api(qr_data: QRParams):
+@qrcode_app.post('/home/api')
+def qrcode_api(qr_data: QRParams) -> str:
     qcd = QrCodeData(qr_data)
     return qcd.generate_qrcode()
 
-@qrcode_app.get('/qrcode/info')
+@qrcode_app.get('/home/info')
 def info():
     return json.dumps({
-        'Hello': 'World',
-        'version': 0.1})
+        'app': 'QR Code Generator',
+        'version': 0.2})
 
 frontend_main.init(qrcode_app)
