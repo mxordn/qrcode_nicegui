@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-import json
+
+'''QR Code Api base module'''
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse, HTMLResponse, RedirectResponse
 

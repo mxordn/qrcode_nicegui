@@ -1,9 +1,12 @@
+'''Frontend definition of QR Code Generator'''
 from nicegui import ui
 from fastapi import FastAPI
 from qr_code_helpers import QrCodeData, QRParams
 from header import QRHeader
 
 def init(app: FastAPI) -> None:
+    '''A init function for the frontend.
+    It is called with the FastAPI app that it should run with'''
     @ui.page('/home')
     def qrcode_frontend():
         qr_data = QRParams(content='')

@@ -6,7 +6,7 @@ from impressum import Impressum
 from frontend_main import QRParams
 
 class QRHeader(ui.header):
-
+    '''THe Header class for the frontend'''
     def __init__(self, *, value: bool = True, fixed: bool = True, bordered: bool = False,
                  elevated: bool = False, qrdata: QRParams | None = None) -> None:
         super().__init__(value=value, fixed=fixed, bordered=bordered, elevated=elevated)
@@ -23,5 +23,6 @@ class QRHeader(ui.header):
             ui.icon('qr_code_2', size='36px').classes('content-center')
         
     def reset_img_string(self):
+        '''reset the qr code image '''
         if isinstance(self.qrdata, QRParams):
             self.qrdata.image_string = ''
