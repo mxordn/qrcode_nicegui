@@ -58,11 +58,15 @@ class QrCodeData:
         '''set a background color, default is white'''
         self.qr_params.bg_color = color
         #print(self.qr_params.color)
+    
+    def set_tolerance(self, tol):
+        self.qr_params.error_const = tol
 
     def generate_qrcode(self) -> str:
         '''puts the qr code together and returns it as a base64 string'''
 
         # set params
+        self.qc = QRCode()
         self.qc.version = self.qr_params.version
         if self.qr_params.error_const in err_const.keys():
             self.qc.error_correction = err_const[self.qr_params.error_const]
@@ -74,7 +78,8 @@ class QrCodeData:
         self.qc.add_data(self.qr_params.content)
 
         self.qc.make(fit=True)
-        img = self.qc.make_image(fill_color=self.qr_params.color, back_color=self.qr_params.bg_color)
+        img = self.qc.make_image(fill_color=self.qr_params.color,
+                                 back_color=self.qr_params.bg_color)
 
         out = io.BytesIO()
         img.save(out, format='PNG')
@@ -82,3 +87,7 @@ class QrCodeData:
         self.qr_params.image_string = base64.b64encode(out.getvalue()).decode()
 
         return self.qr_params.image_string
+
+    def reset(self):
+        '''reset the QRCode'''
+        self.qc = QRCode()

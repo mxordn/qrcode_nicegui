@@ -63,7 +63,7 @@ def init(app: FastAPI) -> None:
 
                             with ui.label('Wie viel Fehlertoleranz soll der Code haben:'):
                                 ui.tooltip("Beispiel: Bis zu 15% des Codes sind unlesbar, trotzdem funktioniert der Code noch.").classes('bg-green')
-                            ui.radio(['10%', '15%', '25%', '30%'], value='15%').props('inline')
+                            ui.radio(['10%', '15%', '25%', '30%'], value='15%').props('inline').bind_value(qcd.qr_params, 'error_const')
                             ui.separator()
                     with ui.card_actions():
                         ui.button('QR-Code erstellen!', on_click=lambda: gen_qc_img())

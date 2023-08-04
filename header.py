@@ -3,7 +3,7 @@
 from nicegui import ui
 
 from impressum import Impressum
-from frontend_main import QRParams
+from frontend_main import QRParams, QrCodeData
 
 class QRHeader(ui.header):
     '''THe Header class for the frontend'''
